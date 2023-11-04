@@ -1,10 +1,20 @@
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
+from libqtile import hook
+
 import os
+import subprocess
 
 icon_theme = "Mint-Y-Red"
 gtk_theme = "Mint-Y-Dark-Red"
+
+device_id = '11'
+
+# Execute the command to enable natural scrolling
+@hook.subscribe.startup_once
+def autostart():
+    subprocess.Popen([f'xinput set-prop {device_id} "libinput Natural Scrolling Enabled" 1'], shell=True)
 
 # Set the environment variables for icon and GTK themes
 os.environ["GTK2_RC_FILES"] = os.path.expanduser(f"~/.themes/{gtk_theme}/gtk-2.0/gtkrc")
@@ -109,20 +119,20 @@ screens = [
         wallpaper_mode='fill',
         top=bar.Bar(
             [
-                widget.GroupBox(disable_drag=True, highlight_method='block', block_highlight_text_color='ec3e41', this_current_screen_border='ec3e41', hide_unused=True),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
+                widget.GroupBox(disable_drag=True, highlight_method='block', block_highlight_text_color='ec3e41', this_current_screen_border='ec3e41', hide_unused=True, font="Fira Code Bold", foreground='#D5D5D5'),
+                widget.Prompt(font="Fira Code Bold", foreground='#D5D5D5'),
+                widget.WindowName(font="Fira Code Bold", foreground='#D5D5D5'),
+                widget.Chord(font="Fira Code Bold", foreground='#D5D5D5',
                     chords_colors={
                         "launch": ("#ff0000", "#ffffff"),
                     },
                     name_transform=lambda name: name.upper(),
                 ),
-                widget.Systray(),
-                widget.PulseVolume(),
-                widget.Battery(format='{char}{percent:2.0%}', charge_char='+', discharge_char='-'),
-                widget.Clock(format="%y/%m/%d %H:%M"),
-                widget.QuickExit(default_text='[x]', countdown_format='[{}]'),
+                widget.Systray(font="Fira Code Bold", foreground='#D5D5D5'),
+                widget.PulseVolume(font="Fira Code Bold", foreground='#D5D5D5'),
+                widget.Battery(font="Fira Code Bold",format='{char}{percent:2.0%}', charge_char='+', discharge_char='-', foreground='#D5D5D5'),
+                widget.Clock(font="Fira Code Bold",format="%y/%m/%d %H:%M", foreground='#D5D5D5'),
+                widget.QuickExit(font="Fira Code Bold",default_text="[🥀]", countdown_format="[{}]", foreground='#D5D5D5'),
             ],
             24,
         ),
