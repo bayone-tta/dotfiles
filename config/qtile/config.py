@@ -6,8 +6,8 @@ from libqtile import hook
 import os
 import subprocess
 
-icon_theme = "Mint-Y-Red"
-gtk_theme = "Mint-Y-Dark-Red"
+icon_theme = "Adwaita-dark"
+gtk_theme = "Adwaita-dark"
 
 device_id = '11'
 
@@ -15,12 +15,15 @@ device_id = '11'
 @hook.subscribe.startup_once
 def autostart():
     subprocess.Popen([f'xinput set-prop {device_id} "libinput Natural Scrolling Enabled" 1'], shell=True)
+    subprocess.Popen(['xfce4-power-manager'], shell=True)
 
 # Set the environment variables for icon and GTK themes
 os.environ["GTK2_RC_FILES"] = os.path.expanduser(f"~/.themes/{gtk_theme}/gtk-2.0/gtkrc")
 os.environ["GTK_THEME"] = gtk_theme
 os.environ["XDG_CURRENT_DESKTOP"] = "XFCE"
 os.environ["QT_QPA_PLATFORMTHEME"] = "qt5ct"
+os.environ["ICON_THEME"] = icon_theme
+
 
 
 mod = "mod4"
@@ -132,7 +135,7 @@ screens = [
                 widget.PulseVolume(font="Fira Code Bold", foreground='#D5D5D5'),
                 widget.Battery(font="Fira Code Bold",format='{char}{percent:2.0%}', charge_char='+', discharge_char='-', foreground='#D5D5D5'),
                 widget.Clock(font="Fira Code Bold",format="%y/%m/%d %H:%M", foreground='#D5D5D5'),
-                widget.QuickExit(font="Fira Code Bold",default_text="[🥀]", countdown_format="[{}]", foreground='#D5D5D5'),
+                widget.QuickExit(font="Fira Code Bold",default_text="[!]", countdown_format="[{}]", foreground='#D5D5D5', countdown_start=4),
             ],
             24,
         ),
